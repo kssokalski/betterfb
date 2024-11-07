@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+      - "4848:4848"
+    environment:
+      - MYSQL_URL=jdbc:mysql://LOCALHOST:3306/betterfb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+    depends_on:
+      - mysql
+    networks:
+      - betterfb-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: betterfb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - betterfb-network
+
+  #frontend:
+  #  build:
+  #    context: ./frontend
+  #  ports:
+  #    - "3000:3000"
+
+networks:
+  betterfb-network:
+    driver: bridge

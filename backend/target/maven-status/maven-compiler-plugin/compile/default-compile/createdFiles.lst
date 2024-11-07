@@ -1,5 +1,4 @@
-com\example\UserService.class
-com\example\UserController$UserDto.class
-com\example\UserRepository.class
-com\example\User.class
-com\example\UserController.class
+com\betterfb\User.class
+com\betterfb\UserRepository.class
+com\betterfb\JAXRSConfiguration.class
+com\betterfb\UserController.class
