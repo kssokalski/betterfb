@@ -27,11 +27,15 @@ services:
     networks:
       - betterfb-network
 
-  #frontend:
-  #  build:
-  #    context: ./frontend
-  #  ports:
-  #    - "3000:3000"
+  frontend:
+    image: nginx:alpine
+    container_name: frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend/betterfb/dist:/usr/share/nginx/html
+    networks:
+      - betterfb-network
 
 networks:
   betterfb-network:
