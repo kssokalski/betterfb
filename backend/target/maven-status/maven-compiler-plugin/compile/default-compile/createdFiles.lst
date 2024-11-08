@@ -1,3 +1,4 @@
+com\betterfb\CorsFilter.class
 com\betterfb\User.class
 com\betterfb\UserRepository.class
 com\betterfb\JAXRSConfiguration.class
