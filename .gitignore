@@ -1,1 +1,3 @@
-data/mysql/
+data/mysql/mysql.sock
+data/mysql/#innodb_temp
+data/mysql/mysql

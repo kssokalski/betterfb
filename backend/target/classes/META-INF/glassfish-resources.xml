@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//Payara.fish//DTD Payara Server 4 Resource Definitions//EN" "https://raw.githubusercontent.com/payara/Payara-Server-Documentation/master/schemas/payara-resources_1_6.dtd">
+<resources>
+    <!-- JDBC Connection Pool for MySQL -->
+    <jdbc-connection-pool name="BetterFBPool" 
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="com.mysql.cj.jdbc.MysqlDataSource" 
+                          connection-creation-retry-interval-in-seconds="10"
+                          connection-creation-retry-count="5" 
+                          steady-pool-size="8" 
+                          max-pool-size="32" 
+                          min-pool-size="8">
+        <property name="user" value="root"/>
+        <property name="password" value="password"/>
+        <property name="URL" value="jdbc:mysql://mysql:3306/betterfb"/>
+        <property name="AllowPublicKeyRetrieval" value="true"></property>
+    </jdbc-connection-pool>
+
+    <!-- JDBC Resource linking to the above pool -->
+    <jdbc-resource jndi-name="jdbc/BetterFBDS" pool-name="BetterFBPool"/>
+</resources>
