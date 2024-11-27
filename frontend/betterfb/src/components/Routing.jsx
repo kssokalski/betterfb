@@ -2,24 +2,40 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LoginPage } from "../pages/LoginPage";
 import { HomePage } from "../pages/HomePage";
 import { RegisterPage } from "../pages/RegisterPage";
+import { ThemeProvider } from "./ThemeContext";
 
 /**
  * A functional component responsible for routing in the application.
  *
- * This component defines the routes for the login page, home page, and registration page.
- * It uses the `BrowserRouter` to handle routing and wraps the routes inside a `Routes` component.
- * Each route is mapped to a specific component which is rendered when the corresponding path is accessed.
+ * This component defines the navigation structure of the application by setting up routes
+ * for the login page, home page, and registration page. It uses `react-router-dom` for managing
+ * client-side routing and wraps the application in a `ThemeProvider` to provide theme context globally.
+ *
+ * The structure includes:
+ * - `/` - The login page.
+ * - `/HomePage` - The main/home page after login.
+ * - `/RegisterPage` - The registration page for new users.
+ *
+ * Wrapping the application in a `ThemeProvider` ensures that all child components
+ * have access to theme-related state and functions (e.g., toggling between dark and light mode).
  *
  * @returns {JSX.Element} The routing component that handles navigation between pages.
  */
 export function Routing() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/HomePage" element={<HomePage />} />
-        <Route path="/RegisterPage" element={<RegisterPage />} />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          {/* Route for the login page */}
+          <Route path="/" element={<LoginPage />} />
+
+          {/* Route for the home page */}
+          <Route path="/HomePage" element={<HomePage />} />
+
+          {/* Route for the registration page */}
+          <Route path="/RegisterPage" element={<RegisterPage />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }

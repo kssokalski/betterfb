@@ -1,4 +1,4 @@
-.forms {
+.formsL {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -6,16 +6,17 @@
   text-align: center;
   border-radius: 10px;
   border: solid 1px;
-  width: 35%;
+  width: 100%;
+  height: 100%;
   padding: 30px 0px;
-  box-shadow: 0px 0px 10px rgb(104, 104, 104);
+  background-color: white;
 }
 
-.forms h1 {
+.formsL h1 {
   font-size: 2.5vw;
 }
 
-.forms form input {
+.formsL form input {
   width: 40%;
   padding: 10px 0px;
   margin-bottom: 30px;
@@ -27,43 +28,114 @@
   background-color: white;
 }
 
-.forms form input:hover {
+.formsL form input:hover {
   box-shadow: 0px 0px 10px gray;
 }
 
-.forms form button {
+.formsL button {
   font-size: 1.5vw;
   border: solid 2px rgb(0, 145, 150);
   background-color: rgb(0, 195, 202);
   border-radius: 7px;
   padding: 10px 40px;
   transition: box-shadow 0.3s ease;
+  margin-top: 10px;
 }
 
-.forms form button:hover {
+.formsL button:hover {
   box-shadow: 0px 0px 15px rgb(0, 145, 150);
 }
 
-.forms #noAccount,
+.formsL #noAccount,
 #error,
 #success {
   margin-bottom: 20px;
 }
 
+.formsD {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 10px;
+  border: solid 1px;
+  width: 100%;
+  height: 100%;
+  padding: 30px 0px;
+  background-color: rgb(51, 51, 51);
+}
+
+.formsD h1 {
+  font-size: 2.5vw;
+  color: white;
+}
+
+.formsD form input {
+  width: 40%;
+  padding: 10px 0px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1vw;
+  border-radius: 7px;
+  border: solid 1px;
+  transition: box-shadow 0.3s ease;
+  background-color: rgb(104, 104, 104);
+  color: white;
+}
+
+.formsD form input:hover {
+  box-shadow: 0px 0px 10px gray;
+}
+
+.formsD form input::placeholder {
+  color: black;
+}
+
+.formsD button {
+  font-size: 1.5vw;
+  border: solid 2px rgb(102, 102, 102);
+  background-color: rgb(44, 44, 44);
+  border-radius: 7px;
+  padding: 10px 40px;
+  transition: box-shadow 0.3s ease;
+  color: white;
+  margin-top: 10px;
+}
+
+.formsD button:hover {
+  box-shadow: 0px 0px 5px rgb(255, 255, 255);
+}
+
+.formsD #noAccount,
+#error,
+#success {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.formsD #noAccount a {
+  color: aqua;
+}
+
 @media screen and (max-width: 600px) {
-  .forms {
-    width: 80%;
+  .formsL,
+  .formsD {
+    width: 100%;
   }
 
-  .forms h1 {
+  .formsL h1,
+  .formsD h1 {
     font-size: 5vw;
   }
 
-  .forms form input {
+  .formsL form input,
+  .formsD form input {
     font-size: 3vw;
   }
 
-  .forms form button {
+  .formsL form button,
+  .formsD form button {
     font-size: 4vw;
   }
 }

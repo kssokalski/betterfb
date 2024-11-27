@@ -4,8 +4,9 @@ import "./App.css";
 /**
  * A functional component representing the main application.
  *
- * This component is the root of the application and renders the `Routing` component
- * which handles the routing of different pages in the application.
+ * This component serves as the root of the React application. It primarily renders
+ * the `Routing` component, which manages the navigation and rendering of different
+ * pages based on the application's routing configuration.
  *
  * @returns {JSX.Element} The main application component that renders the routing logic.
  */
