@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeProvider, useTheme } from "../components/ThemeContext";
 import "./Forms.css";
 
 /**
@@ -61,7 +62,7 @@ export function RegisterPage() {
    * @param {React.FormEvent} e - The form submission event.
    */
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents the default form submission behavior.
     setError(""); // Reset error state before validating.
 
     // Validate the password format.
@@ -103,6 +104,7 @@ export function RegisterPage() {
           navigate("/"); // Navigate to login page after successful registration.
         }, 2000);
       } else {
+        // Handle errors from the backend response.
         setError("Błąd w trakcie rejestracji");
       }
     } catch (error) {
@@ -111,11 +113,18 @@ export function RegisterPage() {
     }
   };
 
+  // Destructure theme state and toggler from ThemeContext.
+  const { darkMode, toggleTheme } = useTheme();
+
   return (
-    <div className="forms">
+    <div className={darkMode ? "formsD" : "formsL"}>
+      {/* Registration Page Header */}
       <h1>Rejestracja</h1>
+
+      {/* Registration Form */}
       <form onSubmit={handleSubmit}>
         <div>
+          {/* Input for username */}
           <input
             type="text"
             placeholder="Login"
@@ -126,6 +135,7 @@ export function RegisterPage() {
         </div>
 
         <div>
+          {/* Input for password */}
           <input
             type="password"
             placeholder="Hasło"
@@ -136,6 +146,7 @@ export function RegisterPage() {
         </div>
 
         <div>
+          {/* Input for email */}
           <input
             type="text"
             placeholder="Adres e-mail"
@@ -145,10 +156,20 @@ export function RegisterPage() {
           />
         </div>
 
+        {/* Display error messages */}
         {error && <div id="error">{error}</div>}
+
+        {/* Display success messages */}
         {successMessage && <div id="success">{successMessage}</div>}
+
+        {/* Submit button for registration */}
         <button type="submit">Zarejestruj</button>
       </form>
+
+      {/* Button to toggle light/dark mode */}
+      <button onClick={toggleTheme}>
+        Przełącz na {darkMode ? "Jasny" : "Ciemny"} tryb
+      </button>
     </div>
   );
 }

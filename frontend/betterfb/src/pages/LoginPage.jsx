@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeProvider, useTheme } from "../components/ThemeContext";
 import "./Forms.css";
 
 /**
@@ -36,6 +37,7 @@ export function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prepare user data for login.
     const userData = {
       username: login,
       password: password,
@@ -51,21 +53,26 @@ export function LoginPage() {
 
       // Checking if the response is OK (successful login).
       if (response.ok) {
-        navigate("/HomePage");
+        navigate("/HomePage"); // Navigate to the home page on successful login.
       } else {
-        setError("Niepoprawne dane logowania");
+        setError("Niepoprawne dane logowania"); // Display an error message if login fails.
       }
     } catch (error) {
       // Handling any connection errors.
-      setError("Błąd połączenia z serwerm");
+      setError("Błąd połączenia z serwerem");
     }
   };
 
+  // Destructure theme context values.
+  const { darkMode, toggleTheme } = useTheme();
+
   return (
-    <div className="forms">
+    // Render the login form with dynamic theme classes based on darkMode.
+    <div className={darkMode ? "formsD" : "formsL"}>
       <h1>LOGOWANIE</h1>
       <form onSubmit={handleSubmit}>
         <div>
+          {/* Input for the login (username) */}
           <input
             type="text"
             placeholder="Login"
@@ -74,6 +81,7 @@ export function LoginPage() {
           />
         </div>
         <div>
+          {/* Input for the password */}
           <input
             type="password"
             placeholder="Hasło"
@@ -81,12 +89,18 @@ export function LoginPage() {
             onChange={(e) => setPassowrd(e.target.value)}
           />
         </div>
+        {/* Display an error message if any */}
         {error && <div id="error">{error}</div>}
         <button type="submit">Zaloguj</button>
       </form>
       <p id="noAccount">
+        {/* Link to the registration page */}
         Nie masz konta? <Link to="/RegisterPage">Załóż je tutaj</Link>
       </p>
+      {/* Button to toggle between light and dark modes */}
+      <button onClick={toggleTheme}>
+        Przełącz na {darkMode ? "Jasny" : "Ciemny"} tryb
+      </button>
     </div>
   );
 }
