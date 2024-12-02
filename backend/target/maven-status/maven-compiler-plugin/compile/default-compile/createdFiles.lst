@@ -1,5 +1,10 @@
 com\betterfb\CorsFilter.class
+com\betterfb\JwtUtility.class
+com\betterfb\LoginRequest.class
 com\betterfb\User.class
+com\betterfb\LoginResource.class
+com\betterfb\LoginResponse.class
 com\betterfb\UserRepository.class
+com\betterfb\UserService.class
 com\betterfb\JAXRSConfiguration.class
 com\betterfb\UserController.class

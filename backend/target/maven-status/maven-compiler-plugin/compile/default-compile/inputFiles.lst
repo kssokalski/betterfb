@@ -1,5 +1,10 @@
-C:\Users\rojje\Documents\coding\betterfb\backend\src\main\java\com\betterfb\CorsFilter.java
-C:\Users\rojje\Documents\coding\betterfb\backend\src\main\java\com\betterfb\JAXRSConfiguration.java
-C:\Users\rojje\Documents\coding\betterfb\backend\src\main\java\com\betterfb\User.java
-C:\Users\rojje\Documents\coding\betterfb\backend\src\main\java\com\betterfb\UserController.java
-C:\Users\rojje\Documents\coding\betterfb\backend\src\main\java\com\betterfb\UserRepository.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\JAXRSConfiguration.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\User.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\LoginRequest.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\JwtUtility.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\UserRepository.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\LoginResource.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\UserService.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\LoginResponse.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\CorsFilter.java
+C:\Users\huber_15ivafg\betterfb\backend\src\main\java\com\betterfb\UserController.java
