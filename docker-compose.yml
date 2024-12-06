@@ -24,6 +24,7 @@ services:
       - "3306:3306" #mysql port
     volumes: #making database files local for better testing
       - ./data/mysql:/var/lib/mysql
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - betterfb-network
 
