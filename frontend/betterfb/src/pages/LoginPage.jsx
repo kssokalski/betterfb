@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, useTheme } from "../components/ThemeContext";
+import ReCAPTCHA from "react-google-recaptcha";
 import "./Forms.css";
 
 /**
@@ -25,6 +26,22 @@ export function LoginPage() {
   // Hook for navigation to other pages.
   const navigate = useNavigate();
 
+  // reCAPTCHA verification state
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+
+  // reCAPTCHA site key
+  const siteKey = "6LfVzJgqAAAAAJhMJmhQkRJNsIMZN2wZoyYLToCj";
+
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+
+  const handleCaptcha = (value) => {
+    if (value) {
+      setCaptchaVerified(true);
+    } else {
+      setCaptchaVerified(false);
+    }
+  };
+
   /**
    * Handles the form submission for logging in.
    *
@@ -36,6 +53,12 @@ export function LoginPage() {
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setAttemptedSubmit(true);
+
+    if (!captchaVerified) {
+      return; // Nie wysyłaj formularza, jeśli captcha nie jest zaznaczona.
+    }
 
     // Prepare user data for login.
     const userData = {
@@ -89,8 +112,23 @@ export function LoginPage() {
             onChange={(e) => setPassowrd(e.target.value)}
           />
         </div>
+        <div>
+          {/* reCAPTCHA widget */}
+          <ReCAPTCHA
+            className="captcha"
+            sitekey={siteKey}
+            onChange={handleCaptcha}
+          />
+        </div>
         {/* Display an error message if any */}
-        {error && <div id="error">{error}</div>}
+        {!captchaVerified && attemptedSubmit && (
+          <div className={darkMode ? "darkCaptchaError" : "lightCaptchaError"}>
+            Zaznacz captcha
+          </div>
+        )}
+        {error && (
+          <div className={darkMode ? "darkError" : "lightError"}>{error}</div>
+        )}
         <button type="submit">Zaloguj</button>
       </form>
       <p id="noAccount">

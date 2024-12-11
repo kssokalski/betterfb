@@ -157,10 +157,16 @@ export function RegisterPage() {
         </div>
 
         {/* Display error messages */}
-        {error && <div id="error">{error}</div>}
+        {error && (
+          <div className={darkMode ? "darkError" : "lightError"}>{error}</div>
+        )}
 
         {/* Display success messages */}
-        {successMessage && <div id="success">{successMessage}</div>}
+        {successMessage && (
+          <div className={darkMode ? "darkSuccess" : "lightSuccess"}>
+            {successMessage}
+          </div>
+        )}
 
         {/* Submit button for registration */}
         <button type="submit">Zarejestruj</button>
