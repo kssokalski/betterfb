@@ -151,3 +151,11 @@
   margin: 0 auto;
   display: inline-block;
 }
+
+.darkCaptchaError {
+  color: white;
+}
+
+.lightCaptchaError {
+  color: black;
+}
