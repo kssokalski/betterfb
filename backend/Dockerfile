@@ -7,6 +7,8 @@ USER root
 COPY mysql-connector-j-8.0.33.jar /opt/payara/appserver/glassfish/lib
 #COPY target/backend.war $DEPLOY_DIR
 #placing war file with all the code
+RUN chown -R payara:payara /opt/payara/appserver/glassfish/domains/domain1/autodeploy/
+
 COPY target/backend.war /opt/payara/appserver/glassfish/domains/domain1/autodeploy/
 #payara config file
 COPY domain.xml $PAYARA_DIR/glassfish/domains/domain1/config
