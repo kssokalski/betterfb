@@ -1,12 +1,19 @@
-Backend kompilowany do pliku .war za pomocą Maven 3.9.9 - "mvn clean install" z folderu ./backend
+Na komputerach z systemem innym niż Windows, backend kompilowany do pliku .war za pomocą Maven 3.9.9 z folderu ./backend
 
-Frontend kompilowany z pomocą Node.js - "npm run build" z folderu ./frontend/betterfb
+<b><i>mvn clean install</b></i> 
 
-Z powodu używania Dockera, po każdej zmianie dobrze jest zbudować kontenery jeszcze raz - "docker-compose up -d --build" z folederu ./backend
+Na komputerach z systemem innym niż Windows, frontend kompilowany z pomocą Node.js z folderu ./frontend/betterfb
 
-W przypadku błędu w dockerze o nieistniejącym pliku zmienić rodzaj odstępów w pliku wait-for-it.sh z CRLF na LF za pomocą używanego edytoru kodu
-Używane porty opisane w pliku docker-compose.yml
+<b><i>npm run build</b></i>
 
-Aby korzystać z bazy danych w terminalu należy użyć komendy - "docker exec -it betterfb-mysql-1 mysql -u root -p". Hasło opisane w pliku docker-compose.yml
+Z powodu używania Dockera, po każdej zmianie dobrze jest zbudować kontenery jeszcze raz z folederu ./backend
 
-Trzeba uważać przy testowaniu rejestracji. Logi dockera mówiły mi o tym, że program próbował tworzyć użytkowników w istniejące ID uzytkowników. Dopiero po kilku próbach zaczął wrzucać w puste ID.
+<b></i>docker-compose up -d --build<b></i>
+
+Hasło do bazy dancych opisane w pliku docker-compose.yml. Aby korzystać z bazy danych w terminalu należy użyć komendy 
+
+<b><i>docker exec -it betterfb-mysql-1 mysql -u root -p</b></i> 
+
+W przypadku błędu związanego z backendem, należy sprawdzić na porcie konsolowym, czy <b>backend.war</b> został deployed. Jeżeli nie, to można go dodać ręcznie.
+
+W przypadku błędu związanego z bazą danych, należy usunąć folder mysql z folderu data.
