@@ -1,9 +1,9 @@
--- init.sql
+﻿-- init.sql
 CREATE DATABASE IF NOT EXISTS betterfb;
 
 USE betterfb;
 
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS USER (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     password varchar(100) NOT NULL,
