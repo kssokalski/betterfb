@@ -8,7 +8,7 @@ Na komputerach z systemem innym niż Windows, frontend kompilowany z pomocą Nod
 
 Z powodu używania Dockera, po każdej zmianie dobrze jest zbudować kontenery jeszcze raz z folederu ./backend
 
-<b></i>docker-compose up -d --build<b></i>
+<b></i>docker-compose up -d --build</b></i>
 
 Hasło do bazy dancych opisane w pliku docker-compose.yml. Aby korzystać z bazy danych w terminalu należy użyć komendy 
 
