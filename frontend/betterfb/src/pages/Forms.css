@@ -46,10 +46,14 @@
   box-shadow: 0px 0px 15px rgb(0, 145, 150);
 }
 
-.formsL #noAccount,
-#error,
-#success {
+.formsL #noAccount {
   margin-bottom: 20px;
+  color: black;
+}
+
+.lightError,
+.lightSuccess {
+  color: black;
 }
 
 .formsD {
@@ -107,10 +111,13 @@
   box-shadow: 0px 0px 5px rgb(255, 255, 255);
 }
 
-.formsD #noAccount,
-#error,
-#success {
+.formsD #noAccount {
   margin-bottom: 20px;
+  color: white;
+}
+
+.darkError,
+.darkSuccess {
   color: white;
 }
 
@@ -138,4 +145,17 @@
   .formsD form button {
     font-size: 4vw;
   }
+}
+
+.captcha {
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.darkCaptchaError {
+  color: white;
+}
+
+.lightCaptchaError {
+  color: black;
 }
