@@ -31,13 +31,30 @@ public class UserController {
 
             // Return a successful response with the user data
             return Response.status(Response.Status.CREATED)
-                           .entity(user)
-                           .build();
+                    .entity(user)
+                    .build();
         } catch (Exception e) {
             // Handle any exceptions and return an error response
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Error: " + e.getMessage())
-                           .build();
+                    .entity("Error: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginUser(UserLoginRequest request) {
+        try {
+            User user = userRepository.findByUsername(request.getUsername());
+            if (user != null && user.getPassword().equals(request.getPassword())) {
+                return Response.ok().build();
+            } else {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Niepoprawne dane logowania").build();
+            }
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: " + e.getMessage()).build();
         }
     }
 }
