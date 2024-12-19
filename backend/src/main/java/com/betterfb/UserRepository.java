@@ -17,6 +17,7 @@ public class UserRepository {
 
     /**
      * Saves a new User entity to the database.
+     *
      * @param user the User entity to be persisted
      */
     public void save(User user) {
@@ -25,12 +26,15 @@ public class UserRepository {
 
     /**
      * Finds a User entity by its username.
+     *
      * @param username the username of the User to be retrieved
      * @return the User entity with the specified username
      */
     public User findByUsername(String username) {
-        return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                .setParameter("username", username)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null;
+        }
     }
 }

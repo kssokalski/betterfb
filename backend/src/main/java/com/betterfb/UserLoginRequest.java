@@ -3,7 +3,7 @@ package com.betterfb;
 public class UserLoginRequest {
     private String username;
     private String email;
-
+    private String password;
     public String getUsername() {
         return username;
     }
@@ -28,5 +28,5 @@ public class UserLoginRequest {
         this.password = password;
     }
 
-    private String password;
+
 }

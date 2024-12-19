@@ -68,7 +68,7 @@ export function LoginPage() {
 
     try {
       // Sending a POST request to the server with user credentials.
-      const response = await fetch("", {
+      const response = await fetch("http://localhost:8080/backend/api/auth/login", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(userData),

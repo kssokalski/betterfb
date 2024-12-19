@@ -47,8 +47,19 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginUser(UserLoginRequest request) {
         try {
-            User user = userRepository.findByUsername(request.getUsername());
-            if (user != null && user.getPassword().equals(request.getPassword())) {
+            if (request.getUsername() == null || request.getPassword() == null) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Nazwa użytkownika i hasło nie mogą być puste").build();
+            }
+            User user;
+            try {
+                user = userRepository.findByUsername(request.getUsername());
+                if (user == null) {
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Niepoprawne dane logowania").build();
+                }
+            } catch (Exception e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: " + e.getMessage()).build();
+            }
+            if (user.getPassword().equals(request.getPassword())) {
                 return Response.ok().build();
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Niepoprawne dane logowania").build();
@@ -58,3 +69,4 @@ public class UserController {
         }
     }
 }
+
