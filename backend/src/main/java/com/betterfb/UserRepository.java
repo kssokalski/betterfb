@@ -1,10 +1,12 @@
 package com.betterfb;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 /**
  * UserRepository is a stateless session bean that provides
@@ -97,5 +99,4 @@ public class UserRepository {
     public void updateUser(User user) {
         em.merge(user);
     }
-
 }

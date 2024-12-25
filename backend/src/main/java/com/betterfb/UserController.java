@@ -2,11 +2,15 @@ package com.betterfb;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.*;
@@ -216,10 +220,18 @@ public class UserController {
         return Response.ok().entity("Password reset successful").build();
     }
 
+    @POST
+    @Path("/user-info")
+    public Response getUserByLogin(User userRequest) {
+        // searching by username
+        User user = userRepository.findByUsername(userRequest.getUsername());
 
-
-
-
-
+        if (user != null) {
+            return Response.ok(user).build();  // if user was found, return response 200 OK with user
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();  // if user wasn't found, return 404 Not Found
+        }
+    }
 }
+
 
