@@ -1,5 +1,7 @@
 package com.betterfb;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,48 @@ public class User {
 
     // Email address for the User
     private String email;
+
+    // Token used for password reset
+    private String resetToken;
+
+    // Expiration date for the reset token
+    private LocalDateTime resetTokenExpiration;
+
+    /**
+     * Gets the reset token for the User.
+     *
+     * @return the User's reset token
+     */
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    /**
+     * Sets the reset token for the User.
+     *
+     * @param resetToken the User's reset token to set
+     */
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    /**
+     * Gets the expiration date for the User's reset token.
+     *
+     * @return the User's reset token expiration date
+     */
+    public LocalDateTime getResetTokenExpiration() {
+        return resetTokenExpiration;
+    }
+
+    /**
+     * Sets the expiration date for the User's reset token.
+     *
+     * @param resetTokenExpiration the User's reset token expiration date to set
+     */
+    public void setResetTokenExpiration(LocalDateTime resetTokenExpiration) {
+        this.resetTokenExpiration = resetTokenExpiration;
+    }
 
     /**
      * Gets the unique identifier of the User.
