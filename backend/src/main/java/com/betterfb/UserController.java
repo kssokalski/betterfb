@@ -2,15 +2,11 @@ package com.betterfb;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
 import jakarta.mail.MessagingException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.*;
@@ -231,6 +227,67 @@ public class UserController {
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();  // if user wasn't found, return 404 Not Found
         }
+    }
+
+    @POST
+    @Path("/user-edit")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editUser(Map<String, String> requestBody) {
+        // Get data from request
+        String userId = requestBody.get("userId");
+        String username = requestBody.get("username");
+        String name = requestBody.get("name");
+        String surname = requestBody.get("surname");
+        String email = requestBody.get("email");
+
+        System.out.println("Received request to edit user with ID: " + userId);
+        System.out.println("Received request body: " + requestBody);
+
+        // Validation userId
+        Long userIdLong = null;
+        if (userId != null && !userId.trim().isEmpty()) {
+            try {
+                userIdLong = Long.valueOf(userId);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid userId format: " + e.getMessage());
+                return Response.status(Response.Status.BAD_REQUEST).entity("Invalid userId format").build();
+            }
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("userId is required").build();
+        }
+
+        // Searching the user in database
+        User user = userRepository.findById(Long.valueOf(userId));
+        if (user == null) {
+            System.out.println("User not found");
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+
+        // Update user data
+        if (username != null && !username.trim().isEmpty()) {
+            user.setUsername(username);
+        }
+        if (name != null && !name.trim().isEmpty()) {
+            user.setName(name);
+        }
+        if (surname != null && !surname.trim().isEmpty()) {
+            user.setSurname(surname);
+        }
+        if (email != null && !email.trim().isEmpty()) {
+            user.setEmail(email);
+        }
+
+        // Save changed data
+        try {
+            userRepository.updateUser(user);
+        } catch (Exception e) {
+            System.err.println("Error updating user: " + e.getMessage());
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error updating user").build();
+        }
+
+        return Response.ok().entity("User updated successfully").build();
     }
 }
 

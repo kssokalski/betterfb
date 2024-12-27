@@ -21,6 +21,10 @@ public class User {
     // Username for the User
     private String username;
 
+    private String name;
+
+    private String surname;
+
     // Password for the User
     private String password;
 
@@ -97,12 +101,48 @@ public class User {
     }
 
     /**
+     * Gets the username of the User.
+     *
+     * @return the User's name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the username of the User.
+     *
+     * @return the User's surname
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
      * Sets the username of the User.
      *
      * @param username the User's username to set
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * Sets the username of the User.
+     *
+     * @param name the User's username to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the username of the User.
+     *
+     * @param surname the User's username to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     /**
