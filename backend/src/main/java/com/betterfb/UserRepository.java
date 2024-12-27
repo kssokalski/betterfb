@@ -65,7 +65,48 @@ public class UserRepository {
             return null;
         }
     }
-    
+
+    /**
+     * Finds a User entity by its username.
+     *
+     * @param id the username of the User to be retrieved
+     * @return the User entity with the specified username
+     */
+    public User findById(Long id) {
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.id = :id", User.class).setParameter("id", id).getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Finds a User entity by its username.
+     *
+     * @param name the username of the User to be retrieved
+     * @return the User entity with the specified username
+     */
+    public User findByName(String name) {
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class).setParameter("name", name).getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Finds a User entity by its username.
+     *
+     * @param surname the username of the User to be retrieved
+     * @return the User entity with the specified username
+     */
+    public User findBySurname(String surname) {
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.surname = :surname", User.class).setParameter("surname", surname).getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null;
+        }
+    }
 
     /**
      * Finds a User entity by its reset token.
