@@ -68,11 +68,14 @@ export function LoginPage() {
 
     try {
       // Sending a POST request to the server with user credentials.
-      const response = await fetch("http://localhost:8080/backend/api/auth/login", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        "http://localhost:8080/backend/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(userData),
+        }
+      );
 
       // Checking if the response is OK (successful login).
       if (response.ok) {
@@ -131,6 +134,11 @@ export function LoginPage() {
         )}
         <button type="submit">Zaloguj</button>
       </form>
+      <p id="resetPass">
+        {/* Link to the registration page */}
+        Zapomniałeś hasła?{" "}
+        <Link to="/ResetPasswordRequest">Zresetuj je tutaj</Link>
+      </p>
       <p id="noAccount">
         {/* Link to the registration page */}
         Nie masz konta? <Link to="/RegisterPage">Załóż je tutaj</Link>

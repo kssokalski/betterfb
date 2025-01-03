@@ -116,12 +116,21 @@
   color: white;
 }
 
+.formsD #resetPass {
+  margin-bottom: 20px;
+  color: white;
+}
+
 .darkError,
 .darkSuccess {
   color: white;
 }
 
 .formsD #noAccount a {
+  color: aqua;
+}
+
+.formsD #resetPass a {
   color: aqua;
 }
 
