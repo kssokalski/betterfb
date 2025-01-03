@@ -1,7 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { LoginPage } from "../pages/LoginPage";
 import { HomePage } from "../pages/HomePage";
 import { RegisterPage } from "../pages/RegisterPage";
+import { ResetPasswordRequest } from "../pages/ResetPasswordRequest";
+import { ResetPassword } from "../pages/ResetPassword";
 import { ThemeProvider } from "./ThemeContext";
 
 /**
@@ -34,6 +36,13 @@ export function Routing() {
 
           {/* Route for the registration page */}
           <Route path="/RegisterPage" element={<RegisterPage />} />
+
+          {/* Routes for the password reset pages */}
+          <Route
+            path="/ResetPasswordRequest"
+            element={<ResetPasswordRequest />}
+          />
+          <Route path="/ResetPassword" element={<ResetPassword />} />
         </Routes>
       </Router>
     </ThemeProvider>

@@ -118,7 +118,7 @@ public class UserController {
         LocalDateTime expiration = LocalDateTime.now().plusHours(2);
         userRepository.updateResetToken(token, expiration, user.getId());
 
-        String resetLink = "http://your-frontend-site.com/reset-password?token=" + token;
+        String resetLink = "localhost:3000/#/ResetPassword?token=" + token; // "http://your-frontend-site.com/reset-password?token=" + token;
         String subject = "Password Reset Request";
         String body = "To reset your password, click the following link: " + resetLink;
 
