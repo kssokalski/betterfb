@@ -79,7 +79,7 @@ export function LoginPage() {
 
       // Checking if the response is OK (successful login).
       if (response.ok) {
-        navigate("/HomePage"); // Navigate to the home page on successful login.
+        navigate("/HomePage", { state: { username: login } }); // Navigate to the home page on successful login.
       } else {
         setError("Niepoprawne dane logowania"); // Display an error message if login fails.
       }
