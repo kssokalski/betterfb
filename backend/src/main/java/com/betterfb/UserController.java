@@ -26,13 +26,27 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerUser(User user) {
         try {
-            // Save the user to the database
-            userRepository.save(user);
+            if (user.getUsername() == null || user.getUsername().trim() == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Nazwa użytkownika jest pusta")
+                        .build();
+            }
+            if (user.getPassword() == null || user.getPassword().trim() == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Hasło nie może być puste")
+                        .build();
+            }
+            if (user.getEmail() == null || user.getEmail().trim() == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("E-mail nie może być pusty").build();
+            }
+
 
             // Return a successful response with the user data
             return Response.status(Response.Status.CREATED)
                     .entity(user)
                     .build();
+
         } catch (Exception e) {
             // Handle any exceptions and return an error response
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
