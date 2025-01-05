@@ -32,6 +32,28 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerUser(User user) {
         try {
+
+            //dodane przez Lysego. W razie czego do usuniecia
+
+//            if (user.getUsername() == null || user.getUsername().trim() == null) {
+//                return Response.status(Response.Status.BAD_REQUEST)
+//                        .entity("Nazwa użytkownika jest pusta")
+//                        .build();
+//            }
+//            if (user.getPassword() == null || user.getPassword().trim() == null) {
+//                return Response.status(Response.Status.BAD_REQUEST)
+//                        .entity("Hasło nie może być puste")
+//                        .build();
+//            }
+//            if (user.getEmail() == null || user.getEmail().trim() == null) {
+//                return Response.status(Response.Status.BAD_REQUEST)
+//                        .entity("E-mail nie może być pusty")
+//                        .build();
+//            }
+
+            // do tego miejsca
+
+
             // Save the user to the database
             userRepository.save(user);
 
