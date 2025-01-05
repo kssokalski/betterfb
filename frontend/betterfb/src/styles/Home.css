@@ -52,7 +52,7 @@
 }
 
 .homeD button {
-  font-size: 0.5vw;
+  font-size: 1vw;
   border: solid 2px rgb(102, 102, 102);
   background-color: rgb(44, 44, 44);
   border-radius: 7px;
@@ -63,7 +63,7 @@
 }
 
 .homeL button {
-  font-size: 0.5vw;
+  font-size: 1vw;
   border: solid 2px rgb(0, 145, 150);
   background-color: rgb(0, 195, 202);
   border-radius: 7px;
