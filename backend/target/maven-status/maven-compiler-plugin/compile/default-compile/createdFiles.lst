@@ -1,5 +1,6 @@
 com\betterfb\CorsFilter.class
 com\betterfb\User.class
+com\betterfb\FriendRequest.class
 com\betterfb\EmailUtil.class
 com\betterfb\UserLoginRequest.class
 com\betterfb\UserRepository.class

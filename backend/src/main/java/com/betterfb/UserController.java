@@ -2,7 +2,11 @@ package com.betterfb;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
@@ -289,6 +293,117 @@ public class UserController {
 
         return Response.ok().entity("User updated successfully").build();
     }
+
+    /**
+     * Searches for users which match the given search query in their username, name or surname.
+     * The search is case-insensitive and the search query is treated as a substring to be found.
+     * The user with the id given as the second parameter is excluded from the search results.
+     *
+     * @param query the search query to be searched for in the usernames, names and surnames of the users
+     * @param loggedInUserId the id of the user which should be excluded from the search results
+     * @return a list of users which match the search query
+     */
+    @GET
+    @Path("/search-users")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUsers(@QueryParam("query") String query, @QueryParam("loggedInUserId") Long loggedInUserId) {
+        List<User> users = userRepository.findUsersForFriendSearch(query, loggedInUserId);
+        return Response.ok(users).build();
+    }
+
+    /**
+     * Sends a friend request to the user with the given ID.
+     *
+     * @param requestBody a map containing the IDs of the sender and receiver
+     * @return a response indicating the outcome of the request
+     */
+    @POST
+    @Path("/send-friend-request")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response sendFriendRequest(Map<String, Long> requestBody) {
+        Long senderId = requestBody.get("senderId");
+        Long receiverId = requestBody.get("receiverId");
+        User sender = userRepository.findById(senderId);
+        User receiver = userRepository.findById(receiverId);
+        
+        if (sender == null || receiver == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid user IDs").build();
+        }
+
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setSender(sender);
+        friendRequest.setReceiver(receiver);
+        friendRequest.setSentTime(LocalDateTime.now());
+        friendRequest.setAccepted(false);
+
+        try {
+            userRepository.saveFriendRequest(friendRequest);
+            return Response.ok().entity("Friend request sent").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: " + e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Accepts a friend request with the given ID.
+     *
+     * @param requestBody a map containing the ID of the friend request to accept
+     * @return a response indicating the outcome of the request
+     */
+    @POST
+    @Path("/accept-friend-request")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response acceptFriendRequest(Map<String, Long> requestBody) {
+        Long requestId = requestBody.get("requestId");
+        FriendRequest friendRequest = userRepository.findFriendRequestById(requestId);
+
+        if (friendRequest == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Friend request not found").build();
+        }
+
+        friendRequest.setAccepted(true);
+        try {
+            userRepository.updateFriendRequest(friendRequest);
+            return Response.ok().entity("Friend request accepted").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: " + e.getMessage()).build();
+        }
+    }
+
+
+    /**
+     * Gets a list of all friends of the user with the given ID.
+     *
+     * @param userId the ID of the user whose friends are to be retrieved
+     * @return a response containing a list of the user's friends
+     */
+    @GET
+    @Path("/friends")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFriends(@QueryParam("userId") Long userId) {
+        User user = userRepository.findById(userId);
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+
+        List<User> friendsSent = userRepository.findFriendsSent(userId);
+        List<User> friendsReceived = userRepository.findFriendsReceived(userId);
+
+        Set<User> allFriends = new HashSet<>();
+        allFriends.addAll(friendsSent);
+        allFriends.addAll(friendsReceived);
+
+        return Response.ok(new ArrayList<>(allFriends)).build();
+    }
+
+
+
+
+
+
 }
 
 

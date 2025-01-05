@@ -7,6 +7,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.util.List;
 
 /**
  * UserRepository is a stateless session bean that provides
@@ -137,7 +138,90 @@ public class UserRepository {
         em.merge(user);
     }
 
+
+    /**
+     * Finds all users which match the given search query in their username, name or surname.
+     * The search is case-insensitive and the search query is treated as a substring to be found.
+     * The user with the id given as the second parameter is excluded from the search results.
+     *
+     * @param searchQuery the search query to be searched for in the usernames, names and surnames of the users
+     * @param loggedInUserId the id of the user which should be excluded from the search results
+     * @return a list of users which match the search query
+     */
+    public List<User> findUsersForFriendSearch(String searchQuery, Long loggedInUserId) {
+    String query = "SELECT u FROM User u WHERE u.id != :loggedInUserId AND (u.username LIKE :searchQuery OR u.name LIKE :searchQuery OR u.surname LIKE :searchQuery)";
+    return em.createQuery(query, User.class)
+             .setParameter("loggedInUserId", loggedInUserId)
+             .setParameter("searchQuery", "%" + searchQuery + "%")
+             .getResultList();
+    }
+
+
+    /**
+     * Updates the given User entity in the database.
+     *
+     * @param user the User entity to be updated
+     */
     public void updateUser(User user) {
         em.merge(user);
     }
+
+    /**
+     * Saves a new FriendRequest entity to the database.
+     *
+     * @param friendRequest the FriendRequest entity to be persisted
+     */
+    public void saveFriendRequest(FriendRequest friendRequest) {
+        em.persist(friendRequest);
+    }
+
+    /**
+     * Finds a FriendRequest entity by its id.
+     *
+     * @param requestId the id of the FriendRequest to be retrieved
+     * @return the FriendRequest entity with the specified id, or null if not found
+     */
+    public FriendRequest findFriendRequestById(Long requestId) {
+        return em.find(FriendRequest.class, requestId);
+    }
+
+    /**
+     * Updates the given FriendRequest entity in the database.
+     *
+     * @param friendRequest the FriendRequest entity to be updated
+     */
+    public void updateFriendRequest(FriendRequest friendRequest) {
+        em.merge(friendRequest);
+    }
+
+    
+    /**
+     * Finds all users which have accepted a friend request from the given user.
+     *
+     * @param userId the id of the user which sent the friend requests
+     * @return a list of users which accepted a friend request from the given user
+     */
+    public List<User> findFriendsSent(Long userId) {
+        String query = "SELECT f.receiver FROM FriendRequest f WHERE f.sender.id = :userId AND f.accepted = true";
+        return em.createQuery(query, User.class)
+                 .setParameter("userId", userId)
+                 .getResultList();
+    }
+    
+    /**
+     * Finds all users who have sent and whose friend requests have been accepted by the given user.
+     *
+     * @param userId the id of the user who received the friend requests
+     * @return a list of users who sent and whose friend requests were accepted by the given user
+     */
+
+    public List<User> findFriendsReceived(Long userId) {
+        String query = "SELECT f.sender FROM FriendRequest f WHERE f.receiver.id = :userId AND f.accepted = true";
+        return em.createQuery(query, User.class)
+                 .setParameter("userId", userId)
+                 .getResultList();
+    }
+    
+    
+
 }
