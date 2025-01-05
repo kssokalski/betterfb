@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { ThemeProvider, useTheme } from "../components/ThemeContext";
+import { useParams, useNavigate } from "react-router-dom";
+import { useTheme } from "../components/ThemeContext";
 import "../styles/Profile.css";
+import { Link } from "react-router-dom";
 
+/**
+ * A functional component representing the profile page.
+ *
+ * This component fetches and displays user profile information.
+ * It also allows the user to toggle between light and dark mode and provides
+ * a link to edit the profile.
+ *
+ * @returns {JSX.Element} The profile page component.
+ */
 export function ProfilePage() {
+  // Get the username from the URL parameters
   const { username } = useParams();
+
+  // Hook for navigation to other pages
+  const navigate = useNavigate();
+
+  // State to hold the current user data
   const [user, setUser] = useState(null);
 
+  // Effect to fetch user data when the component mounts or the username changes
   useEffect(() => {
     if (username) {
       console.log("Sending request to server with username:", username);
@@ -24,24 +41,37 @@ export function ProfilePage() {
     }
   }, [username]);
 
+  // Display a loading message while fetching user data
   if (!user) {
     return <div>Loading...</div>;
   }
 
+  // Destructure theme context values
   const { darkMode, toggleTheme } = useTheme();
 
   return (
+    // Render the profile information and allow theme toggling
     <div className={darkMode ? "profileD" : "profileL"}>
       <button onClick={toggleTheme}>
         Przełącz na {darkMode ? "Jasny" : "Ciemny"} tryb
       </button>
       <h1>Profil użytkownika {user.username} </h1>
+      <Link to={`/EditProfile/${username}`}>
+        <button>Edytuj profil</button>
+      </Link>
       <p id="username">Username: {user.username}</p>
       <p id="name">Imię: {user.name}</p>
       <p id="surname">Nazwisko: {user.surname}</p>
       <p id="email">Adres e-mail: {user.email}</p>
       <hr />
       <p id="postsInfo">Posty użytkownika</p>
+      <button
+        onClick={() =>
+          navigate("/HomePage", { state: { username: user.username } })
+        }
+      >
+        Przejdź na główną stronę
+      </button>
     </div>
   );
 }

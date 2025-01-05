@@ -6,6 +6,7 @@ import { ResetPasswordRequest } from "../pages/ResetPasswordRequest";
 import { ResetPassword } from "../pages/ResetPassword";
 import { ThemeProvider } from "./ThemeContext";
 import { ProfilePage } from "./ProfilePage";
+import { EditProfilePage } from "./EditProfilePage";
 
 /**
  * A functional component responsible for routing in the application.
@@ -45,6 +46,7 @@ export function Routing() {
           />
           <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/Profile/:username" element={<ProfilePage />} />
+          <Route path="/EditProfile/:username" element={<EditProfilePage />} />
         </Routes>
       </Router>
     </ThemeProvider>
