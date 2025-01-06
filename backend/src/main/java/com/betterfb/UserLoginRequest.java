@@ -2,7 +2,12 @@
  * Represents a request to log in a user.
  */
 package com.betterfb;
-
+/**
+ * Represents a request to log in a user.
+ * 
+ * <p>This class provides a container for the user's login credentials which
+ * can be used to authenticate the user in the system.</p>
+ */
 public class UserLoginRequest {
 
     /**
@@ -20,6 +25,11 @@ public class UserLoginRequest {
      */
     private String password;
 
+    /**
+     * Gets the username of the user to log in.
+     * 
+     * @return the username of the user to log in
+     */
     /**
      * Gets the username of the user to log in.
      * 
