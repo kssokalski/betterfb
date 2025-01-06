@@ -6,15 +6,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Applies CORS (Cross-Origin Resource Sharing) headers to the response.
+ *
+ * <p>This filter intercepts HTTP requests and sets necessary headers to allow
+ * cross-origin requests from the specified origin. It allows specific HTTP
+ * methods and headers, and supports credentials. It also handles preflight
+ * OPTIONS requests by returning an HTTP OK status without passing the request
+ * further down the filter chain.</p>
+ */
 @WebFilter("/*")
 public class CorsFilter implements Filter {
 
     /**
      * Initializes the filter.
      *
-     * This method is called once when the filter is placed into service by a
+     * <p>This method is called once when the filter is placed into service by a
      * web container. It can be used to set up any resources or state that the
-     * filter needs to do its job.
+     * filter needs to do its job.</p>
      *
      * @param filterConfig the configuration information from the web.xml file
      * @throws ServletException if the initialization fails
@@ -25,13 +34,13 @@ public class CorsFilter implements Filter {
     }
 
     /**
-     * Applies CORS (Cross-Origin Resource Sharing) headers to the response.
+     * Applies CORS headers to the response.
      *
-     * This method intercepts HTTP requests and sets necessary headers to allow
+     * <p>This method intercepts HTTP requests and sets necessary headers to allow
      * cross-origin requests from the specified origin. It allows specific HTTP
      * methods and headers, and supports credentials. It also handles preflight
      * OPTIONS requests by returning an HTTP OK status without passing the request
-     * further down the filter chain.
+     * further down the filter chain.</p>
      *
      * @param request the servlet request
      * @param response the servlet response
@@ -39,7 +48,6 @@ public class CorsFilter implements Filter {
      * @throws IOException if an I/O error occurs during the processing
      * @throws ServletException if the processing fails
      */
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
