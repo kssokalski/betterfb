@@ -35,6 +35,23 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerUser(User user) {
+        // Verify that the login, password and email are not empty
+        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Login is required")
+                    .build();
+        }
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Password is required")
+                    .build();
+        }
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Email is required")
+                    .build();
+        }
+
         try {
             // Save the user to the database
             userRepository.save(user);
@@ -92,16 +109,19 @@ public class UserController {
     }
 
     
+    
     /**
-     * Requests a password reset for the user with the given email address.
+     * Requests a password reset for the user with the specified email address.
      *
-     * Generates a reset token and expiration date, updates the user's
-     * reset token and expiration date in the database, and sends an
-     * email containing a link to the reset password page with the
-     * generated token. The email is sent to the user's email address.
+     * This method processes a password reset request by retrieving the user from the
+     * database using the provided email address. If the user is not found, a 404 Not
+     * Found response is returned. Otherwise, a reset token is generated, stored in the
+     * database, and sent to the user via email. The method returns a successful response
+     * with a message indicating that the password reset email has been sent.
      *
-     * @param email the email address of the user to reset the password for
-     * @return a response containing a message indicating the outcome of the request
+     * @param requestBody a Map containing the email address of the user to request a
+     *                    password reset for
+     * @return a Response indicating the outcome of the password reset request
      */
     @POST
     @Path("/reset-password-request")
@@ -122,7 +142,7 @@ public class UserController {
         LocalDateTime expiration = LocalDateTime.now().plusHours(2);
         userRepository.updateResetToken(token, expiration, user.getId());
 
-        String resetLink = "localhost:3000/#/ResetPassword?token=" + token; // "http://your-frontend-site.com/reset-password?token=" + token;
+        String resetLink = "http://localhost:3000/#/ResetPassword?token=" + token;
         String subject = "Password Reset Request";
         String body = "To reset your password, click the following link: " + resetLink;
 
@@ -173,12 +193,20 @@ public class UserController {
     }
 
 
+    
     /**
      * Resets the password of a user given a valid reset token and new password.
      *
-     * @param token the reset token obtained via the /reset-password-request endpoint
-     * @param newPassword the new password for the user
-     * @return a Response indicating the outcome of the request
+     * This method processes a password reset request by retrieving the user from the
+     * database using the provided reset token. If the user is not found, a 404 Not
+     * Found response is returned. Otherwise, the method updates the user's password
+     * to the new password and resets the reset token and expiration date. If the
+     * reset token is invalid or expired, a 401 Unauthorized response is returned.
+     * If the user is found and the password is reset successfully, a 200 OK response
+     * is returned with a message indicating that the password was reset successfully.
+     *
+     * @param requestBody a Map containing the reset token and new password
+     * @return a Response indicating the outcome of the password reset request
      */
     @POST
     @Path("/reset-password")
@@ -220,6 +248,12 @@ public class UserController {
         return Response.ok().entity("Password reset successful").build();
     }
 
+    /**
+     * Returns the user information for the user with the given username.
+     *
+     * @param userRequest a User object with the username to search for
+     * @return a Response with the user information if the user was found, or a 404 Not Found response if the user wasn't found
+     */
     @POST
     @Path("/user-info")
     public Response getUserByLogin(User userRequest) {
@@ -233,6 +267,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Edits the user information for the user with the given userId.
+     *
+     * Requires the userId, username, name, surname and email to be provided in the request body.
+     * If any of the fields are not provided, they will not be updated.
+     *
+     * @param requestBody a Map containing the userId, username, name, surname and email to be updated
+     * @return a Response with the updated user information if the user was found, or a 404 Not Found response if the user wasn't found
+     */
     @POST
     @Path("/user-edit")
     @Consumes(MediaType.APPLICATION_JSON)
