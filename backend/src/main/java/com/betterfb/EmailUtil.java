@@ -11,6 +11,15 @@ import java.util.Properties;
 
 public class EmailUtil {
 
+/**
+ * Sends an email using the specified SMTP host and authentication settings.
+ *
+ * @param to the recipient's email address
+ * @param subject the subject of the email
+ * @param body the body content of the email
+ * @throws MessagingException if an error occurs during the sending process
+ */
+
     public static void sendEmail(String to, String subject, String body) throws MessagingException {
         String from = "betterfb.support@op.pl";
         String host = "smtp.poczta.onet.pl";

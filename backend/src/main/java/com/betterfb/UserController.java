@@ -35,6 +35,23 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerUser(User user) {
+        // Verify that the login, password and email are not empty
+        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Login is required")
+                    .build();
+        }
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Password is required")
+                    .build();
+        }
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Email is required")
+                    .build();
+        }
+
         try {
             // Save the user to the database
             userRepository.save(user);
@@ -122,7 +139,7 @@ public class UserController {
         LocalDateTime expiration = LocalDateTime.now().plusHours(2);
         userRepository.updateResetToken(token, expiration, user.getId());
 
-        String resetLink = "localhost:3000/#/ResetPassword?token=" + token; // "http://your-frontend-site.com/reset-password?token=" + token;
+        String resetLink = "http://localhost:3000/#/ResetPassword?token=" + token;
         String subject = "Password Reset Request";
         String body = "To reset your password, click the following link: " + resetLink;
 
@@ -220,6 +237,12 @@ public class UserController {
         return Response.ok().entity("Password reset successful").build();
     }
 
+    /**
+     * Returns the user information for the user with the given username.
+     *
+     * @param userRequest a User object with the username to search for
+     * @return a Response with the user information if the user was found, or a 404 Not Found response if the user wasn't found
+     */
     @POST
     @Path("/user-info")
     public Response getUserByLogin(User userRequest) {
@@ -233,6 +256,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Edits the user information for the user with the given userId.
+     *
+     * Requires the userId, username, name, surname and email to be provided in the request body.
+     * If any of the fields are not provided, they will not be updated.
+     *
+     * @param requestBody a Map containing the userId, username, name, surname and email to be updated
+     * @return a Response with the updated user information if the user was found, or a 404 Not Found response if the user wasn't found
+     */
     @POST
     @Path("/user-edit")
     @Consumes(MediaType.APPLICATION_JSON)
