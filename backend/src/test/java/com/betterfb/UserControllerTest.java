@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import jakarta.mail.MessagingException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +18,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -183,5 +183,35 @@ public class UserControllerTest {
             assertEquals("Password reset email sent", response.getEntity());
         }
     }
+
+    @Test
+    public void testEditUser_Success() {
+        // Test for changing fields
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("userId", "1");
+        requestBody.put("username", "updatedUsername");
+        requestBody.put("name", "updatedName");
+        requestBody.put("surname", "updatedSurname");
+        requestBody.put("email", "updatedEmail@example.com");
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("oldUsername");
+        user.setName("oldName");
+        user.setSurname("oldSurname");
+        user.setEmail("oldEmail@example.com");
+
+        when(userRepository.findById(1L)).thenReturn(user);
+        doNothing().when(userRepository).updateUser(any(User.class));
+
+        Response response = userController.editUser(requestBody);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals("User updated successfully", response.getEntity());
+
+        verify(userRepository).updateUser(any(User.class));
+    }
+
+
 }
 
