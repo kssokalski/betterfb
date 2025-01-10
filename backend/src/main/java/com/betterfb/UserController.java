@@ -399,21 +399,27 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response acceptFriendRequest(Map<String, Long> requestBody) {
-        Long requestId = requestBody.get("requestId");
-        FriendRequest friendRequest = userRepository.findFriendRequestById(requestId);
+    Long requestId = requestBody.get("requestId");
+    FriendRequest friendRequest = userRepository.findFriendRequestById(requestId);
 
-        if (friendRequest == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Friend request not found").build();
-        }
-
-        friendRequest.setAccepted(true);
-        try {
-            userRepository.updateFriendRequest(friendRequest);
-            return Response.ok().entity("Friend request accepted").build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: " + e.getMessage()).build();
-        }
+    if (friendRequest == null) {
+        // Zwróć błąd w formacie JSON, a nie zwykły tekst
+        return Response.status(Response.Status.NOT_FOUND)
+                       .entity("{\"error\": \"Friend request not found\"}")
+                       .build();
     }
+
+    friendRequest.setAccepted(true);
+    try {
+        userRepository.updateFriendRequest(friendRequest);
+        return Response.ok("{\"message\": \"Friend request accepted\"}").build();
+    } catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                       .entity("{\"error\": \"Error: " + e.getMessage() + "\"}")
+                       .build();
+    }
+}
+
 
 
     /**
@@ -442,7 +448,23 @@ public class UserController {
         return Response.ok(new ArrayList<>(allFriends)).build();
     }
 
+    @GET
+    @Path("/friend-requests")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFriendsRequest(@QueryParam("userId") Long userId) {
+        User user = userRepository.findById(userId);
 
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+
+        List<User> friendsReceived = userRepository.findFriendRequests(userId);
+
+        Set<User> allFriends = new HashSet<>();
+        allFriends.addAll(friendsReceived);
+
+        return Response.ok(new ArrayList<>(allFriends)).build();
+    }
 
 
 

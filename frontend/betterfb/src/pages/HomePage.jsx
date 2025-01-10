@@ -43,7 +43,6 @@ export function HomePage() {
   const { darkMode, toggleTheme } = useTheme();
 
   return (
-    // Render the welcome message and allow theme toggling
     <div className={darkMode ? "homeD" : "homeL"}>
       <div id={darkMode ? "userWelcomeD" : "userWelcomeL"}>
         <h1>
@@ -54,6 +53,21 @@ export function HomePage() {
         Przełącz na {darkMode ? "Jasny" : "Ciemny"} tryb
       </button>
       <button>{<Link to={"/"}>Wyloguj</Link>}</button>
+      <button>
+        <Link to="/SearchUsers" state={{ userId: user.id }}>
+          Znajdź znajomych
+        </Link>
+      </button>
+      <button>
+        <Link to="/FriendRequests" state={{ userId: user.id }}>
+          Zaproszenia
+        </Link>
+      </button>
+      <button>
+        <Link to="/Friends" state={{ userId: user.id }}>
+          Lista znajomych
+        </Link>
+      </button>
     </div>
   );
 }

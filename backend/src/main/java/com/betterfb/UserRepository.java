@@ -222,6 +222,11 @@ public class UserRepository {
                  .getResultList();
     }
     
-    
+    public List<User> findFriendRequests(Long userId) {
+        String query = "SELECT f.sender FROM FriendRequest f WHERE f.receiver.id = :userId AND f.accepted = false";
+        return em.createQuery(query, User.class)
+                 .setParameter("userId", userId)
+                 .getResultList();
+    }
 
 }

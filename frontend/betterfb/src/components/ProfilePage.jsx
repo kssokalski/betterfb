@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useTheme } from "../components/ThemeContext";
 import "../styles/Profile.css";
 import { Link } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 /**
  * A functional component representing the profile page.
@@ -49,8 +50,19 @@ export function ProfilePage() {
   // Destructure theme context values
   const { darkMode, toggleTheme } = useTheme();
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text(`Profil uzytkownika: ${user.username}`, 10, 10);
+    doc.text(`Imie: ${user.name}`, 10, 20);
+    doc.text(`Nazwisko: ${user.surname}`, 10, 30);
+    doc.text(`Adres e-mail: ${user.email}`, 10, 40);
+
+    doc.save(`${user.username}_profil.pdf`);
+  };
+
   return (
-    // Render the profile information and allow theme toggling
     <div className={darkMode ? "profileD" : "profileL"}>
       <button onClick={toggleTheme}>
         Przełącz na {darkMode ? "Jasny" : "Ciemny"} tryb
@@ -72,6 +84,7 @@ export function ProfilePage() {
       >
         Przejdź na główną stronę
       </button>
+      <button onClick={generatePDF}>Generuj PDF z profilu</button>
     </div>
   );
 }
